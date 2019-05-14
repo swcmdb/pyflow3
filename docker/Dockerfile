@@ -1,35 +1,30 @@
-FROM alpine:3.7
+#docker build -t my_image .
+#docker exec -it 2bd322c361e8 bash
+#docker run -p 5000:5000 naughtytao/pyflow
 
-ENV PYTHON_VERSION 2.7.13
+FROM ubuntu:18.04
 
-RUN apk add --update nodejs nodejs-npm
-
-RUN apk add --update \
-    python \
-    python-dev \
-    py-pip \
-    build-base \
-    nodejs \
-    nodejs-npm \
-    yarn \
-    git \
-  && rm -rf /var/cache/apk/*
+RUN apt update
+RUN apt install -y nodejs npm libstdc++6 libgconf-2-4
+RUN apt install -y python-pip git yarn
+RUN apt install -y build-essential python-dev libxml2 libxml2-dev zlib1g-dev libatlas3-base liblzma-dev
+RUN rm -rf /var/cache/apt/*
 
 RUN cd /home \
-	&& git clone https://github.com/gangtao/pyflow.git
-
+	&& git clone https://github.com/swcmdb/pyflow.git
+	
 RUN cd /home/pyflow/src \
 	&& pip install --target . flask
 
 RUN cd /home/pyflow/src/static \
-	&& yarn install
-RUN cd /home/pyflow/src \
-	&& pip install --target . flask
-
-COPY ./start.sh /
-RUN chmod +x /start.sh
-
+	&& npm install
+	
 WORKDIR /
 EXPOSE 5000
 
-CMD ["/bin/sh","./start.sh"]
+CMD python /home/pyflow/src/server.py
+ 
+	
+
+
+
