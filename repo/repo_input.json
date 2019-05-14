@@ -1,0 +1,512 @@
+{
+  "flow": {
+    "pyflow.sample.input": {
+      "nodes": [
+        {
+          "spec_id": "pyflow.input.mapping", 
+          "ui": {
+            "y": "148px", 
+            "x": "161px"
+          }, 
+          "ports": [
+            {
+              "name": "maxsearches", 
+              "value": "5"
+            }, 
+            {
+              "name": "ratiothreshold", 
+              "value": "0.9"
+            }
+          ], 
+          "name": "Input Mapping", 
+          "id": "node1557000299946"
+        }, 
+        {
+          "name": "Run SPL query", 
+          "id": "node1557000302057", 
+          "ui": {
+            "y": "375px", 
+            "x": "1192px"
+          }, 
+          "is_end": 1, 
+          "spec_id": "pyflow.input.runspl", 
+          "ports": [
+            {
+              "name": "file_keyword", 
+              "value": "SPLUNK_"
+            }
+          ]
+        }, 
+        {
+          "spec_id": "pyflow.input.updatespl", 
+          "ui": {
+            "y": "268px", 
+            "x": "653px"
+          }, 
+          "ports": [], 
+          "name": "Update SPL files", 
+          "id": "node1557201016567"
+        }
+      ], 
+      "id": "pyflow.sample.input", 
+      "links": [
+        {
+          "source": "node1557201016567:out", 
+          "target": "node1557000302057:dummy"
+        }, 
+        {
+          "source": "node1557000299946:out", 
+          "target": "node1557201016567:dummy"
+        }
+      ], 
+      "name": "Input workflow"
+    }, 
+    "pyflow.sample.test": {
+      "nodes": [
+        {
+          "spec_id": "pyflow.ml.topic", 
+          "ui": {
+            "y": "20px", 
+            "x": "59px"
+          }, 
+          "ports": [
+            {
+              "name": "topics", 
+              "value": "10"
+            }, 
+            {
+              "name": "words", 
+              "value": "3"
+            }
+          ], 
+          "name": "Topic Model", 
+          "id": "node1556988096338"
+        }, 
+        {
+          "spec_id": "pyflow.ml.pagerank", 
+          "ui": {
+            "y": "11px", 
+            "x": "278px"
+          }, 
+          "ports": [
+            {
+              "name": "edgeweight", 
+              "value": "packets"
+            }
+          ], 
+          "name": "Pagerank Model", 
+          "id": "node1556988099946"
+        }, 
+        {
+          "spec_id": "pyflow.join.endpoint", 
+          "ui": {
+            "y": "131px", 
+            "x": "280px"
+          }, 
+          "ports": [], 
+          "name": "Endpoint data join", 
+          "id": "node1556988131112"
+        }, 
+        {
+          "spec_id": "pyflow.join.cloud", 
+          "ui": {
+            "y": "131px", 
+            "x": "487px"
+          }, 
+          "ports": [], 
+          "name": "Cloud data join", 
+          "id": "node1556988142866"
+        }, 
+        {
+          "spec_id": "pyflow.join.user", 
+          "ui": {
+            "y": "131px", 
+            "x": "693px"
+          }, 
+          "ports": [], 
+          "name": "User data join", 
+          "id": "node1556988162318"
+        }, 
+        {
+          "spec_id": "pyflow.output.endpoint", 
+          "ui": {
+            "y": "252px", 
+            "x": "695px"
+          }, 
+          "ports": [], 
+          "name": "Endpoint output", 
+          "id": "node1556988180062"
+        }, 
+        {
+          "spec_id": "pyflow.output.cloud", 
+          "ui": {
+            "y": "252px", 
+            "x": "911px"
+          }, 
+          "ports": [], 
+          "name": "Cloud output", 
+          "id": "node1556988216885"
+        }, 
+        {
+          "spec_id": "pyflow.output.riskscore", 
+          "ui": {
+            "y": "238px", 
+            "x": "1132px"
+          }, 
+          "ports": [
+            {
+              "name": "lastdays", 
+              "value": "7"
+            }
+          ], 
+          "name": "Risk score output", 
+          "id": "node1556988229617"
+        }, 
+        {
+          "name": "Final output", 
+          "id": "node1556988252717", 
+          "ui": {
+            "y": "238px", 
+            "x": "1367px"
+          }, 
+          "is_end": 1, 
+          "spec_id": "pyflow.output.final", 
+          "ports": []
+        }
+      ], 
+      "id": "pyflow.sample.test", 
+      "links": [
+        {
+          "source": "node1556988096338:out", 
+          "target": "node1556988099946:dummy"
+        }, 
+        {
+          "source": "node1556988099946:out", 
+          "target": "node1556988131112:dummy"
+        }, 
+        {
+          "source": "node1556988131112:out", 
+          "target": "node1556988142866:dummy"
+        }, 
+        {
+          "source": "node1556988142866:out", 
+          "target": "node1556988162318:dummy"
+        }, 
+        {
+          "source": "node1556988162318:out", 
+          "target": "node1556988180062:dummy"
+        }, 
+        {
+          "source": "node1556988180062:out", 
+          "target": "node1556988216885:dummy"
+        }, 
+        {
+          "source": "node1556988216885:out", 
+          "target": "node1556988229617:dummy"
+        }, 
+        {
+          "source": "node1556988229617:out", 
+          "target": "node1556988252717:dummy"
+        }
+      ], 
+      "name": "Demo workflow"
+    }
+  }, 
+  "nodespec": {
+    "pyflow.join.endpoint": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 0
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.join.endpoint", 
+      "func": "def func(dummy):\n    from pymongo import MongoClient\n    from cmdbpy.shared_mongo_functions import *\n    db = MongoClient('mongo', 27017).test_database\n    \n    # Merge endpoint data\n    mongo_lookup(db, 'Infoblox', 'SentinelOne', 'Asset_Name')\n    mongo_lookup(db, 'Infoblox|SentinelOne', 'JAMF', 'Asset_Name')\n    mongo_lookup(db, 'Infoblox|SentinelOne|JAMF', 'Tenable', 'Asset_Name', 'Asset_Name',\n                 False, 'Asset_Name', 'Endpoint_Combine')\n    return 'Joining Endpoint Data ...... Done'", 
+      "title": "Endpoint data join"
+    }, 
+    "pyflow.output.final": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 0
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.output.final", 
+      "func": "def func(dummy):\n    from pymongo import MongoClient, TEXT\n    db = MongoClient('mongo', 27017).test_database\n    \n    # Create text index on every field that contains string data for each document in the collection\n    # To search any text in the index, use {$text: {$search: 'your_search_string'}} under MongoDB\n    db['AWS_CMDB_Output'].create_index([('$**', TEXT)], name='search_index')\n    \n    # Clean up temporary data\n    drop_list = ['AD_User|BOX_FILE_Topic', 'AWS_EC2_IP|Tenable', 'AWS_EC2_IP|Tenable|PCI_VPC_IP',\n                 'Infoblox|SentinelOne', 'Infoblox|SentinelOne|JAMF']\n    for d in drop_list:\n        db[d].drop()\n    return \"Final Combined Output Indexed ...... Done\"", 
+      "title": "Final output"
+    }, 
+    "pyflow.ml.pagerank": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "edgeweight", 
+            "order": 0
+          }, 
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 1
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.ml.pagerank", 
+      "func": "def func(edgeweight, dummy):\n    from cmdbpy.func_network_flow_pagerank import network_flow_pagerank\n    from pymongo import MongoClient\n    \n    pci_vpc_wt_pr = network_flow_pagerank(db=MongoClient('mongo', 27017).test_database, \n                                          query={\"sourcetype\":\"PCI_VPC\"}, \n                                          sourcetype='PCI_VPC',\n                                          outsourcetype='PCI_VPC_WtPageRank',\n                                          weight=edgeweight,\n                                          src_ip='src_ip',\n                                          dest_ip='dest_ip',\n                                          accountid='aws_account_id')\n    return \"Graph model results ready in MongoDB\"", 
+      "title": "Pagerank Model"
+    }, 
+    "pyflow.input.runspl": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "spl_filepath", 
+            "order": 0
+          }, 
+          {
+            "type": "String", 
+            "name": "file_keyword", 
+            "order": 1
+          }, 
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 2
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.input.runspl", 
+      "func": "def func(spl_filepath, file_keyword, dummy):\n    import os\n    import pandas as pd\n    import pkg_resources\n    import splunklib.client as client\n    from cmdbpy.func_input_automatic_mapping import automatic_data_mapping, update_spl_query, read_spl_files, exec_spl_files\n    from cmdbpy.shared_splunk_functions import execute_query\n    from cmdbpy.shared_mongo_functions import import_df\n    from pymongo import MongoClient\n    db = MongoClient('mongo', 27017).test_database\n    RESOURCE_PATH = pkg_resources.resource_filename('cmdbpy', '/resources/')\n    if spl_filepath is None or len(spl_filepath) < 2:\n        spl_filepath = RESOURCE_PATH\n    if file_keyword is None or len(file_keyword) < 2:\n        file_keyword = 'SPLUNK_'\n    # Splunk server settings\n    HOST = \"splunk\"\n    PORT = 8089\n    USERNAME = \"admin\"\n    PASSWORD = '12345678'\n    SERVICE = client.connect(\n                host=HOST,\n                port=PORT,\n                username=USERNAME,\n                password=PASSWORD,\n                verify=False)\n    \n    # Run SPL query files in batch\n    data, names, errors = exec_spl_files(SERVICE, RESOURCE_PATH)\n    \n    # Import data into MongoDB\n    if len(names) > 0:\n        for i in range(len(names)):\n            import_df(data[i], db, names[i])\n    return errors\n    ", 
+      "title": "Run SPL query"
+    }, 
+    "pyflow.output.cloud": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 0
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.output.cloud", 
+      "func": "def func(dummy):\t\n    from pymongo import MongoClient\n    from cmdbpy.shared_mongo_functions import *\n    db = MongoClient('mongo', 27017).test_database\n    \n    # Create cloud output\n    _ = mongo_fillna(db, 'AWS_Combine', 'AWS_Risk',\n             ['Is_EP_Installed', 'Is_IDS_Network', 'PCI_VPC_IP_Data.Likelihood', 'Tenable_Data.Count_High_Severity_Vuln'],\n             ['HostIDS_Log', 'NetworkIDS_Log', 'PCI_Likelihood', 'High_Severity_Vuln'], 0.0)\n\n    _ = mongo_binary(db, 'AWS_Risk', 'AWS_Risk',\n                 ['Tenable_Data.Count_High_Severity_Vuln'],\n                 ['VA_Scan'])\n\n    _ = mongo_reverse_binary(db, 'AWS_Risk', 'AWS_Risk',\n                 ['HostIDS_Log', 'Is_CloudTrail_Log', 'Is_IDS_Network', 'VA_Scan', 'Is_Managed_Asset'],\n                 ['HostIDS_Not_Log', 'CloudTrail_Not_Log', 'NetworkIDS_Not_Log', 'VA_Not_Scan', 'Not_Managed'])\n    \n    _ = mongo_set_data_risk(db, 'AWS_Risk', 'AWS_Risk', 'PCI_Likelihood', 4.0, 'Restricted', 'PCI')\n    \n    # Consolidate same fields from different sources\n    _ = mongo_unwind_fields(db, 'AWS_Risk', 'AWS_Output', ['Tenable_Data'])\n\n    _ = mongo_consolidate_fields(db, 'AWS_Output', 'AWS_Output',\n                             ['Last_Discovered_Datetime', 'Tenable_Data.Last_Discovered_Datetime'],\n                             'Last_Discovered_Datetime', 'max')\n    \n    _ = mongo_consolidate_fields(db, 'AWS_Output', 'AWS_Output',\n                             ['First_Discovered_Datetime', 'Tenable_Data.First_Discovered_Datetime'],\n                             'First_Discovered_Datetime', 'min')\n    \n    _ = mongo_consolidate_fields(db, 'AWS_Output', 'AWS_Output',\n                             ['IP_Address', 'PCI_VPC_IP_Data.IP_Address', 'Tenable_Data.IP_Address'],\n                             'IP_Address', 'union')\n    \n    _ = mongo_consolidate_fields(db, 'AWS_Output', 'AWS_Output',\n                             ['MAC_Address', 'Tenable_Data.MAC_Address'],\n                             'MAC_Address', 'union')\n    \n    _ = mongo_consolidate_fields(db, 'AWS_Output', 'AWS_Output',\n                             ['AWS_Account_ID', 'PCI_VPC_IP_Data.aws_account_id'],\n                             'AWS_Account_ID', 'union', arrayelem=0)\n    return \"Creating Cloud Output ...... Done\"", 
+      "title": "Cloud output"
+    }, 
+    "pyflow.input.mapping": {
+      "port": {
+        "input": [
+          {
+            "type": "Int", 
+            "name": "maxsearches", 
+            "order": 0
+          }, 
+          {
+            "type": "Float", 
+            "name": "ratiothreshold", 
+            "order": 1
+          }, 
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 2
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.input.mapping", 
+      "func": "def func(maxsearches, ratiothreshold, dummy):\n    \"\"\"\n    :ptypes: Int,Float\n    \"\"\"\n    import os\n    import pandas as pd\n    import pkg_resources\n    import splunklib.client as client\n    from cmdbpy.func_input_automatic_mapping import automatic_data_mapping, update_spl_query, read_spl_files, exec_spl_files\n    from cmdbpy.shared_splunk_functions import execute_query\n    from cmdbpy.shared_mongo_functions import import_df\n    from pymongo import MongoClient\n    db = MongoClient('mongo', 27017).test_database\n    RESOURCE_PATH = pkg_resources.resource_filename('cmdbpy', '/resources/')\n    # Splunk server settings\n    HOST = \"splunk\"\n    PORT = 8089\n    USERNAME = \"admin\"\n    PASSWORD = '12345678'\n    SERVICE = client.connect(\n                host=HOST,\n                port=PORT,\n                username=USERNAME,\n                password=PASSWORD,\n                verify=False)  \n    \n\t# Read pre-defined data sources\n    predefine = pd.read_csv(os.path.join(RESOURCE_PATH, 'Data Source Mapping.csv'))\n    predefine = predefine.fillna('')\n    \n    # Run automatic mapping\n    automatic_mapping, spl_update, splunk = automatic_data_mapping(RESOURCE_PATH, SERVICE, \n                                                                   maxsearches=maxsearches, \n                                                                   outputfile=False, \n                                                                   ratiothreshold=ratiothreshold)\n    import_df(predefine, db, 'Predefined_Data_Layout', False)\n    import_df(automatic_mapping, db, 'Auto_Mapping_Output', False)\n    import_df(spl_update, db, 'SPL_Update_Query', False)\n    import_df(splunk, db, 'Splunk_Data_Layout', False)\n    index_list = ','.join(list(automatic_mapping['customer_index'].unique()))\n    return \"Automatic data mapping ...... Done - \" + index_list", 
+      "title": "Input Mapping"
+    }, 
+    "pyflow.join.user": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 0
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.join.user", 
+      "func": "def func(dummy):\n    from pymongo import MongoClient\n    from cmdbpy.shared_mongo_functions import *\n    db = MongoClient('mongo', 27017).test_database\n    \n    # Merge endpoint data\n    mongo_lookup(db, 'AD_User', 'BOX_FILE_Topic', 'Owner_Email', 'Owner_Email', True)\n    mongo_lookup(db, 'AD_User|BOX_FILE_Topic', 'Lookup_BU_Data', 'Owner_Department', 'Owner_Department', \n                 True, 'Asset_Name', 'User_Combine')\n    return 'Joining User Data ...... Done'", 
+      "title": "User data join"
+    }, 
+    "pyflow.output.endpoint": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 0
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.output.endpoint", 
+      "func": "def func(dummy):\t\n    from pymongo import MongoClient\n    from cmdbpy.shared_mongo_functions import *\n    db = MongoClient('mongo', 27017).test_database\n    \n    # Create Endpoint output\n    mongo_lookup(db=db, \n                 src_collection='Endpoint_Combine', \n                 dst_collection='User_Combine', \n                 src_field='Asset_Name', \n                 dst_field='Asset_Name', \n                 mergeObj=True,\n                 index_key='Asset_Name', \n                 out_collection='CMDB_Combine')\n    \n    # Create new fields for risk score calculation\n    _ = mongo_fillna(db, 'CMDB_Combine', 'CMDB_Risk',\n                 ['Data_Risk', 'SentinelOne_Data.Is_EP_Updated', 'SentinelOne_Data.Is_EP_Installed', 'SentinelOne_Data.Count_Threat'],\n                 ['Data_Risk', 'EP_Updated', 'EP_Installed', 'EP_Infections'], 0.0)\n\n    _ = mongo_fillna(db, 'CMDB_Risk', 'CMDB_Risk',\n                 ['Data_Type', 'Data_Classification'],\n                 fillvalue='Unknown')\n\n    _ = mongo_binary(db, 'CMDB_Risk', 'CMDB_Risk',\n                 ['Tenable_Data.Count_High_Severity_Vuln'],\n                 ['VA_Scan']) \n\n    _ = mongo_reverse_binary(db, 'CMDB_Risk', 'CMDB_Risk',\n                 ['Is_Managed_Asset', 'VA_Scan', 'SentinelOne_Data.Is_EP_Installed', 'SentinelOne_Data.Is_EP_Updated'],\n                 ['Not_Managed', 'VA_Not_Scan', 'EP_Not_Installed', 'EP_Not_Updated']) \n    \n    # Consolidate same fields from different sources\n    _ = mongo_unwind_fields(db, 'CMDB_Risk', 'CMDB_Output', ['SentinelOne_Data', 'JAMF_Data'])\n\n    _ = mongo_consolidate_fields(db, 'CMDB_Output', 'CMDB_Output',\n                             ['Last_Discovered_Datetime', 'SentinelOne_Data.Last_Discovered_Datetime', 'JAMF_Data.Last_Discovered_Datetime'],\n                             'Last_Discovered_Datetime', 'max')\n    \n    _ = mongo_consolidate_fields(db, 'CMDB_Output', 'CMDB_Output',\n                             ['First_Discovered_Datetime', 'SentinelOne_Data.First_Discovered_Datetime', 'JAMF_Data.First_Discovered_Datetime'],\n                             'First_Discovered_Datetime', 'min')\n    \n    _ = mongo_consolidate_fields(db, 'CMDB_Output', 'CMDB_Output',\n                             ['IP_Address', 'SentinelOne_Data.IP_Address', 'JAMF_Data.IP_Address'],\n                             'IP_Address', 'union')\n    \n    _ = mongo_consolidate_fields(db, 'CMDB_Output', 'CMDB_Output',\n                             ['MAC_Address', 'SentinelOne_Data.MAC_Address', 'JAMF_Data.MAC_Address'],\n                             'MAC_Address', 'union')\n\n    return \"Creating Endpoint Output ...... Done\"", 
+      "title": "Endpoint output"
+    }, 
+    "pyflow.input.updatespl": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "spl_filepath", 
+            "order": 0
+          }, 
+          {
+            "type": "String", 
+            "name": "mapping_output", 
+            "order": 1
+          }, 
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 2
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.input.updatespl", 
+      "func": "def func(spl_filepath, mapping_output, dummy):\n    import os\n    import pandas as pd\n    import pkg_resources\n    import splunklib.client as client\n    from cmdbpy.func_input_automatic_mapping import automatic_data_mapping, update_spl_query, read_spl_files, write_spl_files\n    from cmdbpy.shared_splunk_functions import execute_query\n    from cmdbpy.shared_mongo_functions import import_df, read_mongo\n    from pymongo import MongoClient\n    db = MongoClient('mongo', 27017).test_database\n    RESOURCE_PATH = pkg_resources.resource_filename('cmdbpy', '/resources/')\n    if spl_filepath is None or len(spl_filepath) < 2:\n        spl_filepath = RESOURCE_PATH\n    if mapping_output is None or len(mapping_output) < 2:\n        mapping_output = 'Auto_Mapping_Output'\n    # Splunk server settings\n    HOST = \"splunk\"\n    PORT = 8089\n    USERNAME = \"admin\"\n    PASSWORD = '12345678'\n    SERVICE = client.connect(\n                host=HOST,\n                port=PORT,\n                username=USERNAME,\n                password=PASSWORD,\n                verify=False)\n    \n    # Load mapping output from MongoDB\n    data_mapping = read_mongo(db, mapping_output)\n    # Update pre-defined SPL queries\n    spl_update = update_spl_query(read_spl_files(spl_filepath), data_mapping)\n    # Write queries to txt files\n    write_spl_files(spl_filepath, spl_update, 'spl_query', 'spl_filename')\n    \n    return \"Updated SPL files under: \" + spl_filepath\n    ", 
+      "title": "Update SPL files"
+    }, 
+    "pyflow.output.riskscore": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "params", 
+            "order": 0
+          }, 
+          {
+            "type": "Int", 
+            "name": "lastdays", 
+            "order": 1
+          }, 
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 2
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.output.riskscore", 
+      "func": "def func(params, lastdays, dummy):\n    \"\"\"\n    :ptypes: String, Int, String\n    \"\"\"\n    from pymongo import MongoClient\n    from cmdbpy.shared_mongo_functions import read_mongo, import_df\n    from cmdbpy.func_output_risk_score import create_wt_risk_score\n    from cmdbpy.shared_text_functions import find_new_entity\n    from cmdbpy.shared_utils_functions import create_epoch_time\n    import pkg_resources\n    import pandas as pd\n    import time\n    db = MongoClient('mongo', 27017).test_database\n    RESOURCE_PATH = pkg_resources.resource_filename('cmdbpy', '/resources/')\n    \n    if params is None or len(params) < 1:\n        params = \"model_parameters.yaml\"\n\n\t# Concatenate all device outputs\n    aws = read_mongo(db, 'AWS_Output')\n    endpoint = read_mongo(db, 'CMDB_Output')\n    combined = pd.concat([aws, endpoint], axis=0, sort=False)\n    \n    # Create risk score with weight table\n    combined = create_wt_risk_score(RESOURCE_PATH, combined, params, \"yaml\")\n    combined['Is_Cloud_Device'] = combined['AWS_Account_ID'].apply(lambda x: 0 if pd.isnull(x) else 1)\n    \n    # Create timestamp and new entity indicators based on last 7 days\n    create_epoch_time(combined)\n    last_days = int(time.time()) - 60 * 60 * 24 * lastdays\n    try:\n        hist = read_mongo(db, 'AWS_CMDB_Output', query={'_time': {'$gt': last_days}})\n    except:\n        hist = None\n    _, _, combined = find_new_entity(combined, hist, 'Asset_Name', append=True)\n    _, _, combined = find_new_entity(combined, hist, 'Owner_Email', append=True)\n    \n    # Append results back to MongoDB: Don't create sourcetype, keep previous records\n    import_df(combined, db, 'AWS_CMDB_Output', False, False)\n    return \"Calculating Risk Score ...... Done\"\n", 
+      "title": "Risk score output"
+    }, 
+    "pyflow.ml.topic": {
+      "port": {
+        "input": [
+          {
+            "type": "Int", 
+            "name": "topics", 
+            "order": 0
+          }, 
+          {
+            "type": "Int", 
+            "name": "words", 
+            "order": 1
+          }, 
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 2
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.ml.topic", 
+      "func": "def func(topics, words, dummy):\n    \"\"\"\n    :ptypes: Int,Int\n    :returns: out\n    :rtype: String\n    \"\"\"\n    from pymongo import MongoClient\n    from cmdbpy.func_file_sharing_topic import cloud_file_topic\n    \n    box_topic = cloud_file_topic(db=MongoClient('mongo', 27017).test_database, \n                               query={\"sourcetype\":\"BOX_FILE\"}, \n                               sourcetype='BOX_FILE',\n                               outsourcetype = 'BOX_FILE_Topic',\n                               userid='Owner_Email',\n                               textfield='Box_File_Name',\n                               mongo=True,\n                               num_topics=topics,\n                               num_words=words)\n    return \"File sharing results ready in MongoDB\"", 
+      "title": "Topic Model"
+    }, 
+    "pyflow.join.cloud": {
+      "port": {
+        "input": [
+          {
+            "type": "String", 
+            "name": "dummy", 
+            "order": 0
+          }
+        ], 
+        "output": [
+          {
+            "type": "String", 
+            "name": "out"
+          }
+        ]
+      }, 
+      "id": "pyflow.join.cloud", 
+      "func": "def func(dummy):\n    from pymongo import MongoClient\n    from cmdbpy.shared_mongo_functions import *\n    db = MongoClient('mongo', 27017).test_database\n\n    # Merge cloud device data\n    db['AWS_EC2_IP'].drop()\n    db['AWS_EC2'].aggregate([{\"$addFields\" : {\"AWS_IP\":{\"$concat\":[{\"$toString\" : \"$AWS_Account_ID\"}, \"|\", \n                                                                   {\"$toString\" : \"$IP_Address\"}]}}},\n                             {\"$out\" : \"AWS_EC2_IP\"}\n                            ])\n    db['PCI_VPC_IP'].drop()\n    db['PCI_VPC_WtPageRank'].aggregate([{\"$addFields\" : {\"AWS_IP\":{\"$concat\":[{\"$toString\" : \"$aws_account_id\"}, \"|\", \n                                                                              {\"$toString\" : \"$IP_Address\"}]}}},\n                             {\"$out\" : \"PCI_VPC_IP\"}\n                            ])\n    mongo_lookup(db, 'AWS_EC2_IP', 'Tenable', 'Asset_Name')\n    mongo_fulljoin(db, 'AWS_EC2_IP|Tenable', 'PCI_VPC_IP', \"AWS_IP\")\n    mongo_lookup(db, 'AWS_EC2_IP|Tenable|PCI_VPC_IP', 'LINUX_SECURE', 'Asset_Name', 'Asset_Name', \n                 True, 'Asset_Name', 'AWS_Combine')\n    return 'Joining Cloud Device Data ...... Done'", 
+      "title": "Cloud data join"
+    }
+  }
+}
