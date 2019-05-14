@@ -1,4 +1,7 @@
 # PyFlow
+
+Please refer to the original work from https://github.com/gangtao/pyflow
+
 PyFlow is a python based flow programming engine/platform
 
 According to wikipedia, here is the definition of [FBP](http://www.jpaulmorrison.com/fbp/)
