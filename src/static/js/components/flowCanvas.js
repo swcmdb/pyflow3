@@ -324,7 +324,7 @@ define(["model/flow", "util"], function(Flow, Util) {
             endpoint.setLabel({ location: labelAnchor, label: ports[i], cssClass: "endpointLabel" });
 
             // Only show port lable on mouse over
-            /*
+            
             d3.selectAll(".endpointLabel").style("visibility", "hidden");
             endpoint.bind("mouseover", function(source) {
                 var label = source.getLabel();
@@ -333,7 +333,7 @@ define(["model/flow", "util"], function(Flow, Util) {
             endpoint.bind("mouseout", function(source) {
                 d3.selectAll(".endpointLabel").style("visibility", "hidden");
             });
-            */
+            
         }
     };
 
@@ -358,15 +358,16 @@ define(["model/flow", "util"], function(Flow, Util) {
             if ( r.status == "skip" ) {
                 node.addClass("node-skip");
             } 
-
+            /*
             r.inputs.map(function(input){
                 var endpoint = instance.getEndpoint(r.id + "-" + input.name);
-                endpoint.setLabel("" + input.value)
+                endpoint.setLabel("")
             })
             r.outputs.map(function(output){
                 var endpoint = instance.getEndpoint(r.id + "-" + output.name);
-                endpoint.setLabel("" + output.value)
+                endpoint.setLabel("")
             })
+	    */
         })
     };
 
