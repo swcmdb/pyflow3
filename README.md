@@ -56,7 +56,8 @@ here is a sample of nodespec for a function of add operation:
 }
 ```
 
-note, each port has a name and for input port, it has an order. so here `a` is the first input for add operation node and `b` is the second input.
+Each port has a name and for input port, it has an order. so here `a` is the first input for add operation node and `b` is the second input. By default
+each node's settings will be saved in repo.db (sqlite database) under pyflow web UI. 
 
 ### Flow
 A flow is a DAG that composed by nodes and links between nodes.
@@ -102,8 +103,36 @@ Here is a sample definition of a flow:
 ```
 ![sample](https://github.com/gangtao/pyflow/raw/master/docs/sample_add.png)
 
-note, each input port can have input values in case there is no output port connected to it. and if the is_end is true which means this node is the last node to run for a flow.
+Each input port can have input values in case there is no output port connected to it. and if the is_end is true which means this node is the last node to run for a flow. By default each flow's settings will be saved in repo.db (sqlite database) under pyflow web UI. 
 
+### Repository
+Repository is simply a json file with everything, including all settings on Flows/Nodes/Ports. One example is at /repo/repo_input.json. This file can be dumped and loaded from pyflow web UI. Also a Python workflow can be easily run under command line by using repository json file, for example,
+
+```
+import sys
+import json
+
+sys.path.append('/home/pyflow/src')
+
+from fbp import run_flow
+import fbp.repository
+
+def run_pyflow(flow_name, repo_path):
+    # Load Pyflow repository json file
+    repository = fbp.repository()
+    repository.loads(repo_path)
+    # Load flow spec
+    with open(repo_path, 'r') as f:
+        repo = json.loads(f.read())
+    flow_spec = repo["flow"][flow_name] 
+    # Run Pyflow with flow_spec
+    return json.dumps(run_flow(flow_spec), indent=2)
+
+if __name__ == '__main__':
+    REPO_PATH = '/home/pyflow/repo/repo_input.json'
+    FLOW_NAME = 'pyflow.sample.input'
+    print(run_pyflow(FLOW_NAME, REPO_PATH))
+```
 
 
 # Flow Engine 
@@ -124,29 +153,25 @@ PyFlow Web UI leverages [jsplumb](https://jsplumbtoolkit.com/) to provide flow b
 
 # Build and Test
 ## Run locally
-install dependecny for front end code
+install dependency for front end code
 ```
 cd /src/static
-yarn install
+npm install
 ```
 and start the server
 ```
 cd /src
 python server.py
 ```
-then open `http://localhost:5000` for the pyflow web UI
+then open `http://localhost:5000` for the pyflow web UI (make sure to close and reopen the web UI after any modifications)
 
-## Run with docker
-```
-docker run -P naughtytao/pyflow:latest
-```
 
 ## Docker Build and Run
 ```
 cd /docker
-make docker
+docker build -t pyflow .
 ```
-then run `docker run -P pyflow:latest` to run the pyflow in docker  
+then run `docker run -p 5000:5000 pyflow:latest` to run the pyflow in docker  
 
 
 ## Unit Test
