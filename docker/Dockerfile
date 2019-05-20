@@ -1,6 +1,6 @@
-#docker build -t my_image .
-#docker exec -it 2bd322c361e8 bash
-#docker run -p 5000:5000 naughtytao/pyflow
+#docker build -t [image_name] .
+#docker exec -it [container_id] bash
+#docker run -p 5000:5000 [image_name]
 
 FROM ubuntu:18.04
 
@@ -13,16 +13,16 @@ RUN rm -rf /var/cache/apt/*
 RUN cd /home \
 	&& git clone https://github.com/swcmdb/pyflow3.git
 	
-RUN cd /home/pyflow/src \
+RUN cd /home/pyflow3/src \
 	&& pip install --target . flask
 
-RUN cd /home/pyflow/src/static \
+RUN cd /home/pyflow3/src/static \
 	&& npm install
 	
 WORKDIR /
 EXPOSE 5000
 
-CMD python /home/pyflow/src/server.py
+CMD python /home/pyflow3/src/server.py
  
 	
 
