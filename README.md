@@ -1,4 +1,4 @@
-# PyFlow
+# PyFlow (Modified for Python 3.*)
 
 Please refer to the original work from https://github.com/gangtao/pyflow
 
