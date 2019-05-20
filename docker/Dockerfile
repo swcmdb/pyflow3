@@ -11,7 +11,7 @@ RUN apt install -y build-essential python-dev libxml2 libxml2-dev zlib1g-dev lib
 RUN rm -rf /var/cache/apt/*
 
 RUN cd /home \
-	&& git clone https://github.com/swcmdb/pyflow.git
+	&& git clone https://github.com/swcmdb/pyflow3.git
 	
 RUN cd /home/pyflow/src \
 	&& pip install --target . flask
