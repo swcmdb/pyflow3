@@ -2,7 +2,7 @@
 
 import traceback, pdb
 
-from port import Inport, Outport
+from .port import Inport, Outport
 
 OUTPORT_DEFAULT_NAME = "out"
 
@@ -20,8 +20,9 @@ class Node(object):
         self._spec = spec
         self._port_spec = spec.get("port")
         # Tricky and Non-Secure eval
-        exec(spec.get("func"))
-        self._func = func
+        ldict = {}
+        exec(spec.get("func"), globals(), ldict)
+        self._func = ldict["func"]
 
         self._inputports = dict()
         self._outputports = dict()
@@ -93,10 +94,10 @@ class Node(object):
     def __str__(self):
         out_str = "node id : {}\nnode name : {}".format(self._id, self._name)
 
-        for k, v in self._inputports.items():
+        for k, v in list(self._inputports.items()):
             out_str = out_str + "\n" + str(v)
 
-        for k, v in self._outputports.items():
+        for k, v in list(self._outputports.items()):
             out_str = out_str + "\n" + str(v)
 
         out_str = out_str + "\n" + "status : {}".format(self._status)
@@ -123,9 +124,9 @@ class Node(object):
 
     def get_ports(self, port_type):
         if port_type == "in":
-            return [v for k, v in self._inputports.items()]
+            return [v for k, v in list(self._inputports.items())]
         elif port_type == "out":
-            return [v for k, v in self._outputports.items()]
+            return [v for k, v in list(self._outputports.items())]
         else:
             raise Exception("Invalid port type {}".format(port_type))
 
@@ -151,8 +152,8 @@ class Node(object):
         node = dict()
         node["id"] = self._id
         node["name"] = self._name
-        node["inputs"] = [v.get_value() for k, v in self._inputports.items()]
-        node["outputs"] = [v.get_value() for k, v in self._outputports.items()]
+        node["inputs"] = [v.get_value() for k, v in list(self._inputports.items())]
+        node["outputs"] = [v.get_value() for k, v in list(self._outputports.items())]
         node["status"] = self._status
 
         node["error"] = str(self._error)
@@ -171,7 +172,7 @@ class Node(object):
             return
 
         parameter_values = [(v.value, v.order)
-                            for k, v in self._inputports.items()]
+                            for k, v in list(self._inputports.items())]
 
         parameter_values = [v[0] for v in sorted(
             parameter_values, key=lambda x: x[1])]  # sort by order
@@ -184,16 +185,16 @@ class Node(object):
             self._error = None
 
             # Single output case
-            if OUTPORT_DEFAULT_NAME in self._outputports.keys() and len(self._outputports) == 1:
+            if OUTPORT_DEFAULT_NAME in list(self._outputports.keys()) and len(self._outputports) == 1:
                 out_port = self._outputports.get(OUTPORT_DEFAULT_NAME)
                 out_port.value = return_value
                 return
 
             # Mutiple output case
             # the multiple output should return a dict where key/value is output name/value
-            for k, v in self._outputports.items():
+            for k, v in list(self._outputports.items()):
                 v.value = return_value.get(k)
         except Exception as e:
             self._status = STATUS_FAIL
             self._error = e
-            print(traceback.format_exc())
+            print((traceback.format_exc()))

@@ -24,7 +24,7 @@ def nodestree():
     repository = fbp.repository()
     node_specs = repository.get("nodespec")
 
-    for k, v in node_specs.iteritems():
+    for k, v in node_specs.items():
         _insert(tree, v)
     return jsonify(tree)
 
@@ -87,8 +87,8 @@ def nodes():
             return jsonify({}), 200, {'ContentType': 'application/json'}
 
         # Adding default output when it is not there
-        for k, v in node_specs.iteritems():
-            if not v["port"].has_key("output"):
+        for k, v in node_specs.items():
+            if "output" not in v["port"]:
                 v["port"]["output"] = list()
                 v["port"]["output"].append({"name": "out"})
 
@@ -125,7 +125,7 @@ def flows():
         if flows is None:
             return jsonify({})
 
-        result = [v for k, v in flows.items()]
+        result = [v for k, v in list(flows.items())]
         return jsonify(result)
 
 
@@ -140,7 +140,7 @@ def get_flow(id):
 def runflow():
     try:
         data = request.get_json()
-        print(json.dumps(data))
+        print((json.dumps(data)))
         return jsonify(fbp.run_flow(data))
     except Exception as e:
         return json.dumps({"error": str(e)}), 500

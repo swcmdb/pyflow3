@@ -1,17 +1,16 @@
 """Port Class for Flow."""
 
-import types
 import json
 
 # All Supported Types
 TYPES = dict()
-TYPES["Boolean"] = types.BooleanType
-TYPES["Int"] = types.IntType
-TYPES["Long"] = types.LongType
-TYPES["Float"] = types.FloatType
-TYPES["String"] = types.StringType
-TYPES["List"] = types.ListType
-TYPES["Json"] = types.DictType
+TYPES["Boolean"] = bool
+TYPES["Int"] = int
+TYPES["Long"] = int
+TYPES["Float"] = float
+TYPES["String"] = bytes
+TYPES["List"] = list
+TYPES["Json"] = dict
 
 
 def c_int(val):
@@ -21,14 +20,14 @@ def c_int(val):
 def c_bool(val):
     if type(val) is 'bool':
         return val
-    elif type(val) is str or unicode:
+    elif type(val) is str:
         return str(val).lower() in ["y", "true", "yes"]
     else:
         return False
 
 
 def c_long(val):
-    return long(val)
+    return int(val)
 
 
 def c_float(val):
@@ -42,7 +41,7 @@ def c_str(val):
 def c_list(val):
     if type(val) is list:
         return val
-    elif type(val) is str or unicode:
+    elif type(val) is str:
         return str(val).split(",")
     return []
 
@@ -50,7 +49,7 @@ def c_list(val):
 def c_json(val):
     if type(val) is dict:
         return val
-    elif type(val) is str or unicode:
+    elif type(val) is str:
         return json.loads(str(val))
     return {}
 
@@ -78,16 +77,16 @@ class Port(object):
     def __init__(self, name, type='String'):
         self._name = name
         self._type = type
-        if type in TYPES.keys():
+        if type in list(TYPES.keys()):
             self._type_object = TYPES[type]
         else:
-            print("Port type {} is not supported! default to string".format(type))
+            print(("Port type {} is not supported! default to string".format(type)))
             self._type_object = 'String'
         self._value = None
 
     @classmethod
     def support_types(cls):
-        return TYPES.keys()
+        return list(TYPES.keys())
 
     @property
     def name(self):
